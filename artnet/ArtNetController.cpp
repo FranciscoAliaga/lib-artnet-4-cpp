@@ -7,7 +7,7 @@
 #include <cstring>
 #include <iomanip>
 #include <random>
-#include <sys/_endian.h>
+#include <endian.h>
 #include <thread>
 
 #ifdef __APPLE__
