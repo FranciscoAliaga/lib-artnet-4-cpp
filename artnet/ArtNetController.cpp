@@ -19,8 +19,15 @@
 namespace ArtNet {
 
 ArtNetController::ArtNetController()
-    : m_port(ARTNET_PORT), m_net(0), m_subnet(0), m_universe(0), m_isRunning(false), m_seqNumber(0), m_dataCallback(nullptr),
-      m_isConfigured(false), m_frameInterval(std::chrono::microseconds(1000000 / ARTNET_FPS)) {}
+    : m_port(ARTNET_PORT),
+    m_net(0),
+    m_subnet(0),
+    m_universe(0),
+    m_isRunning(false),
+    m_isConfigured(false),
+    m_seqNumber(0),
+    m_dataCallback(nullptr),
+    m_frameInterval(std::chrono::microseconds(1000000 / ARTNET_FPS)) {}
 
 ArtNetController::~ArtNetController() { stop(); }
 
