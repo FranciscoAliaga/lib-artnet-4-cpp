@@ -552,7 +552,7 @@ void ArtNetController::receivePackets() {
     socklen_t addrLen = sizeof(senderAddr);
     // No MSG_DONTWAIT flag
     int bytesReceived =
-        recvfrom(m_networkInterface->getSocket(), buffer.data(), buffer.size(), 0, (struct sockaddr *)&senderAddr, &addrLen);
+        recvfrom(m_networkInterface->getSocket(), buffer.data(), buffer.size(), 0, reinterpret_cast<struct sockaddr*>(&senderAddr), &addrLen);
 
     Logger::debug("receivePackets, bytesReceived: ", bytesReceived, " buffer.size: ", buffer.size());
 

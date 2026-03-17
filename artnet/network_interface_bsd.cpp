@@ -81,7 +81,7 @@ bool NetworkInterfaceBSD::bindSocket() {
   check_addr.sin_addr.s_addr = INADDR_ANY;
 
   int check_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-  if (bind(check_socket, (struct sockaddr *)&check_addr, sizeof(check_addr)) == 0) {
+  if (bind(check_socket, reinterpret_cast<struct sockaddr*>(&check_addr), sizeof(check_addr)) == 0) {
     close(check_socket); // Port is free
   } else {
     close(check_socket);
