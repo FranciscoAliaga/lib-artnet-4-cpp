@@ -21,22 +21,15 @@ inline bool setThreadPriority(ThreadPriority priority) {
   pthread_getschedparam(pthread_self(), &policy, &param);
 
   // Handle all enum cases explicitly
-  switch (priority) {
-  case ThreadPriority::HIGH:
+  if(priority==ThreadPriority::HIGH){
     policy = SCHED_FIFO;
     param.sched_priority = sched_get_priority_min(policy) + 1;
-    break;
-
-  case ThreadPriority::REALTIME:
+  } else if(priority== ThreadPriority::REALTIME){
     policy = SCHED_RR;
     param.sched_priority = sched_get_priority_max(policy);
-    break;
-
-  case ThreadPriority::NORMAL:
-  default: // Handle any future enum values
+  } else { // (priority == ThreadPriority::NORMAL) or else
     policy = SCHED_OTHER;
     param.sched_priority = 0;
-    break;
   }
 
   if (pthread_setschedparam(pthread_self(), policy, &param) != 0) {
