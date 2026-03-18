@@ -3,6 +3,7 @@
 #include "logging.h"
 #include "utils.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cstring>
 #include <iomanip>
@@ -664,9 +665,17 @@ void ArtNetController::handleArtPoll([[maybe_unused]] const uint8_t *buffer, int
     return;
   }
 
-  ArtPollPacket pollPacket;
-  std::memset(&pollPacket, 0, sizeof(pollPacket));
-  std::memcpy(&pollPacket, buffer, std::min((size_t)size, sizeof(pollPacket)));
+  // std::memset(&pollPacket, 0, sizeof(pollPacket));
+  // std::memcpy(&pollPacket, buffer, std::min((size_t)size, sizeof(pollPacket)));
+  ArtPollPacket pollPacket{};
+  size_t bytesToCopy = std::min(static_cast<size_t>(size), sizeof(pollPacket));
+
+
+  std::copy_n(
+    reinterpret_cast<const uint8_t*>(buffer),
+    bytesToCopy,
+    reinterpret_cast<uint8_t*>(&pollPacket)
+  );
 
   Logger::debug("Received Poll Packet");
   sendPollReply(buffer, senderAddr);
